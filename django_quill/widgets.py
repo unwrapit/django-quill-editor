@@ -90,7 +90,6 @@ class QuillWidget(forms.Textarea):
     def get_context(self, name, value, attrs):
         context = super(QuillWidget, self).get_context(name, value, attrs)
         context['widget']['config'] = json_encode(self.config)
-        print(context)
         return context
 
     def format_value(self, value):
