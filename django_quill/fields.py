@@ -1,4 +1,5 @@
 import json
+import warnings
 
 from django.db import models
 from django.utils.html import strip_tags
@@ -169,6 +170,7 @@ class QuillTextField(QuillFieldMixin, models.TextField):
 
 
 def QuillField(*args, **kwargs):
+    warnings.warn('QuillField is deprecated in favor of QuillTextField', stacklevel=2)
     return QuillTextField(*args, **kwargs)
 
 
