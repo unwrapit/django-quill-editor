@@ -21,6 +21,7 @@ class QuillFormJSONField(forms.JSONField):
     def prepare_value(self, value):
         if hasattr(value, "data"):
             return value.data
+        return value
 
     def has_changed(self, initial, data):
         if hasattr(initial, 'data'):
