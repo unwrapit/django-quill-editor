@@ -106,7 +106,6 @@ class QuillDescriptor:
         elif isinstance(quill, Quill) and not isinstance(quill, FieldQuill):
             quill_copy = self.field.attr_class(instance, self.field, quill.data)
             quill_copy.quill = quill
-            quill_copy._committed = False
             instance.__dict__[self.field.name] = quill_copy
 
         elif isinstance(quill, FieldQuill) and not hasattr(quill, "field"):
@@ -144,12 +143,12 @@ class QuillFieldMixin:
         return quill
 
     def to_python(self, value):
+        if value is None:
+            return value
         if isinstance(value, Quill):
             return value
         if isinstance(value, FieldQuill):
             return value.quill
-        if value is None or isinstance(value, str):
-            return value
         return Quill(value)
 
     def get_prep_value(self, value):
