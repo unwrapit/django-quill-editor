@@ -2,12 +2,12 @@ const djq = {}
 
 class QuillWrapper {
   constructor(targetDivId, targetInputId, uploadURL, quillOptions) {
-        if (!Quill.imports["modules/resize"] && quillOptions["modules"].resize) {
-            Quill.register("modules/resize", window.QuillResizeModule);
-        }
-        if (!Quill.imports["modules/imageCompressor"] && quillOptions["modules"].imageCompressor) {
-            Quill.register("modules/imageCompressor", imageCompressor);
-        }
+    if (!Quill.imports["modules/resize"] && quillOptions["modules"].resize) {
+        Quill.register("modules/resize", window.QuillResizeModule);
+    }
+    if (!Quill.imports["modules/imageCompressor"] && quillOptions["modules"].imageCompressor) {
+        Quill.register("modules/imageCompressor", imageCompressor);
+    }
     this.targetDiv = document.getElementById(targetDivId);
     if (!this.targetDiv) throw 'Target div(' + targetDivId + ') id was invalid';
 
@@ -19,9 +19,14 @@ class QuillWrapper {
       Quill.register(Quill.import('attributors/style/align'), true);
     }
 
-    if (uploadURL) {
+    if (quillOptions.modules && quillOptions.modules.imageUploader && quillOptions.modules.imageUploader.uploadURL) {
       // https://www.npmjs.com/package/quill-image-uploader
       Quill.register("modules/imageUploader", ImageUploader);
+
+      var headers = {};
+      if (quillOptions.modules.imageUploader.addCSRFTokenHeader) {
+       headers['X-CSRFToken'] = document.querySelector('[name=csrfmiddlewaretoken]').value
+      }
 
       var imageUploaderModule = {
         upload: file => {
@@ -30,12 +35,10 @@ class QuillWrapper {
             formData.append("image", file);
 
             fetch(
-                uploadURL, {
+                quillOptions.modules.imageUploader.uploadURL, {
                   method: "POST",
                   body: formData,
-                  headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                  },
+                  headers: headers,
                 }
               )
               .then(response => response.json())
