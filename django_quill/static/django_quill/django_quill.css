@@ -7,3 +7,11 @@ button.ytp-large-play-button,
 button.ytp-button {
     pointer-events: none;
 }
+
+div.form-row.field-content, div.django-quill-widget-container {
+    display: inline-block;
+}
+
+.ql-editor{
+    min-height:350px;
+}
