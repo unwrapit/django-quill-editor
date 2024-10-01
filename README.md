@@ -176,15 +176,17 @@ class EditorImageUploadAPIView(CreateAPIView):
 
 ## Usage
 
-Add `QuillField` to the **Model class** you want to use
+Add `QuillTextField` or `QuillJSONField` to the **Model class** you want to use.
 
 ```python
 # models.py
 from django.db import models
-from django_quill.fields import QuillField
+from django_quill.fields import QuillField, QuillTextField, QuillJSONField
 
 class QuillPost(models.Model):
-    content = QuillField()
+    content = QuillField()              # Deprecated. It is same with QuillTextField.
+    content = QuillTextField()
+    content = QuillJSONField()
 ```
 
 ### Using in admin
@@ -202,9 +204,7 @@ class QuillPostAdmin(admin.ModelAdmin):
 
 ![admin-sample](https://raw.githubusercontent.com/LeeHanYeong/django-quill-editor/master/_assets/admin-sample.png)
 
-
-
-
+- Add `QuillFormJSONField` to the **Form class** you want to use
 
 ## Running the Live Demo project in local
 
@@ -234,6 +234,15 @@ pip install -r requirements.txt
 # Run migrate and runserver
 python manage.py migrate
 python manage.py runserver
+```
+
+```python
+# forms.py
+from django import forms
+from django_quill.forms import QuillFormJSONField
+
+class QuillFieldForm(forms.Form):
+    content = QuillFormJSONField()
 ```
 
 After the above operation, the live demo site works at localhost:8000.
