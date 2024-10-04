@@ -134,13 +134,18 @@ class QuillFieldMixin:
         :param value: JSON string with 'delta' and 'html' keys
         :return: Quill's 'Delta' JSON String
         """
+        print("to_python", value)
+        if value is None:
+            return value
         if isinstance(value, Quill):
             return value
         if isinstance(value, FieldQuill):
             return value.quill
-        if value is None or isinstance(value, str):
-            return value
-        return Quill(value)
+        if isinstance(value, str):
+            return Quill(value)
+        if isinstance(value, dict):
+            return Quill(json.loads(value))
+        return None
 
     def get_prep_value(self, value):
         value = super().get_prep_value(value)
@@ -165,9 +170,6 @@ def QuillField(*args, **kwargs):
 
 
 class QuillJSONField(QuillFieldMixin, models.JSONField):
-    def from_db_value(self, value, expression, connection):
-        return Quill(json.dumps(value))
-
     def validate(self, value, model_instance):
         value = self.get_prep_value(value)
         super(QuillJSONField, self).validate(value, model_instance)
