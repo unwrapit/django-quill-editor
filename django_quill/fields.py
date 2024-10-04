@@ -105,7 +105,7 @@ class QuillDescriptor:
             instance.__dict__[self.field.name] = attr
 
         elif isinstance(quill, Quill) and not isinstance(quill, FieldQuill):
-            quill_copy = self.field.attr_class(instance, self.field, quill.data)
+            quill_copy = self.field.attr_class(instance, self.field, quill.json_string)
             quill_copy.quill = quill
             instance.__dict__[self.field.name] = quill_copy
 
