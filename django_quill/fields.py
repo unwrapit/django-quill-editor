@@ -17,32 +17,22 @@ __all__ = (
 
 
 class FieldQuill:
-    def __init__(self, instance, field, data):
+    def __init__(self, instance, field, json_string):
         self.instance = instance
         self.field = field
-        self.data = data or dict(delta="", html="")
-
-        assert isinstance(self.data, (str, dict)), (
-                "FieldQuill expects dictionary or string as data but got %s(%s)." % (type(data), data)
-        )
-        if isinstance(self.data, str):
-            try:
-                self.data = json.loads(data)
-            except json.JSONDecodeError:
-                raise QuillParseError(data)
-
+        self.json_string = json_string or '{"delta":"","html":""}'
         self._committed = True
 
     def __str__(self):
         return self.delta
         
     def __eq__(self, other):
-        if hasattr(other, 'data'):
-            return self.data == other.data
-        return self.data == other
+        if hasattr(other, "json_string"):
+            return self.json_string == other.json_string
+        return self.json_string == other
 
     def __hash__(self):
-        return hash(self.data)
+        return hash(self.json_string)
 
     def _require_quill(self):
         if not self:
@@ -53,7 +43,7 @@ class FieldQuill:
 
     def _get_quill(self):
         self._require_quill()
-        self._quill = Quill(self.data)
+        self._quill = Quill(self.json_string)
         return self._quill
 
     def _set_quill(self, quill):
