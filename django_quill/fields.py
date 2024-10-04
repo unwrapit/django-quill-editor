@@ -165,6 +165,8 @@ def QuillField(*args, **kwargs):
 
 
 class QuillJSONField(QuillFieldMixin, models.JSONField):
+    def from_db_value(self, value, expression, connection):
+        return Quill(json.dumps(value))
 
     def validate(self, value, model_instance):
         value = self.get_prep_value(value)
