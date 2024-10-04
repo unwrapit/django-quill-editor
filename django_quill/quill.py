@@ -21,8 +21,6 @@ class Quill:
         try:
             self.json_string = json_string
             json_data = json.loads(json_string)
-            print("json_data", type(json_data))
-            print("json_string", json_string)
             self.delta = json_data["delta"]
             self.html = json_data.get("html", "")
             self.plain = strip_tags(self.html).strip()

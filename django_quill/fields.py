@@ -134,7 +134,6 @@ class QuillFieldMixin:
         :param value: JSON string with 'delta' and 'html' keys
         :return: Quill's 'Delta' JSON String
         """
-        print("to_python", type(value))
         if value is None:
             return value
         if isinstance(value, Quill):
