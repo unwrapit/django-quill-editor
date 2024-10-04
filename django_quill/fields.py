@@ -146,7 +146,7 @@ class QuillFieldMixin:
         value = super().get_prep_value(value)
         if value is None:
             return value
-        if isinstance(value, Quill):
+        if isinstance(value, (Quill, FieldQuill)):
             return value.json_string
         return value
 
