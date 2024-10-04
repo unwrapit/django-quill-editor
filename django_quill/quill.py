@@ -17,19 +17,12 @@ class QuillParseError(Exception):
 
 
 class Quill:
-    def __init__(self, data):
-        assert isinstance(data, (str, dict)), (
-                "Quill expects dictionary or string as data but got %s(%s)." % (type(data), data)
-        )
-        if isinstance(data, str):
-            try:
-                data = json.loads(data)
-            except json.JSONDecodeError:
-                raise QuillParseError(data)
-
-        self.data = data
+    def __init__(self, json_string):
         try:
-            self.delta = data['delta']
-            self.html = data['html']
-        except (KeyError, TypeError):
-            raise QuillParseError(data)
+            self.json_string = json_string
+            json_data = json.loads(json_string)
+            self.delta = json_data["delta"]
+            self.html = json_data.get("html", "")
+            self.plain = strip_tags(self.html).strip()
+        except (json.JSONDecodeError, KeyError, TypeError):
+            raise QuillParseError(json_string)
