@@ -152,6 +152,10 @@ class QuillFieldMixin:
             return value
         if isinstance(value, (Quill, FieldQuill)):
             return value.json_string
+        if isinstance(value, str):
+            return Quill(value).json_string
+        if isinstance(value, dict):
+            return Quill(json.dumps(value)).json_string
         return value
 
     def value_to_string(self, obj):
