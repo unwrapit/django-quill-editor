@@ -127,6 +127,12 @@ class QuillFieldMixin:
     def from_db_value(self, value, expression, connection):
         return self.to_python(value)
 
+    def pre_save(self, model_instance, add):
+        quill = super().pre_save(model_instance, add)
+        if quill and not quill._committed:
+            quill.save(quill.json_string, save=False)
+        return quill
+
     def to_python(self, value):
         """
         Expect a JSON string with 'delta' and 'html' keys
