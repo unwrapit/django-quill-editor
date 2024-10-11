@@ -45,6 +45,8 @@ MEDIA_JS = [
     "https://cdn.jsdelivr.net/npm/@botom/quill-resize-module@2.0.0/dist/quill-resize-module.min.js",
     # custom
     "django_quill/django_quill.js",
+    # quill-image-uploader
+    "https://unpkg.com/quill-image-uploader@1.2.2/dist/quill.imageUploader.min.js",
 ]
 MEDIA_CSS = [
     # syntax-highlight
