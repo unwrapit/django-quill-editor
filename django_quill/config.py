@@ -54,4 +54,6 @@ MEDIA_CSS = [
     "https://cdn.jsdelivr.net/npm/quill-resize-module@1.2.4/dist/resize.min.css",
     # custom
     "django_quill/django_quill.css",
+    # quill-image-uploader
+    "https://unpkg.com/quill-image-uploader@1.2.2/dist/quill.imageUploader.min.css",
 ]
