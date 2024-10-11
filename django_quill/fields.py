@@ -127,12 +127,6 @@ class QuillFieldMixin:
     def from_db_value(self, value, expression, connection):
         return self.to_python(value)
 
-    def pre_save(self, model_instance, add):
-        quill = super().pre_save(model_instance, add)
-        if quill and not quill._committed:
-            quill.save(quill.json_string, save=False)
-        return quill
-
     def to_python(self, value):
         """
         Expect a JSON string with 'delta' and 'html' keys
@@ -179,6 +173,13 @@ def QuillField(*args, **kwargs):
 
 
 class QuillJSONField(QuillFieldMixin, models.JSONField):
+    def get_db_prep_value(self, value, connection, prepared=False):
+        print("get_db_prep_value")
+        print(self)
+        print(value)
+        print("END get_db_prep_value")
+        return super().get_db_prep_value(self.get_prep_value(value), connection, prepared)
+
     def from_db_value(self, value, expression, connection):
         if isinstance(value, str):
             value = json.loads(value)
