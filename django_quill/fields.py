@@ -143,7 +143,7 @@ class QuillFieldMixin:
         if isinstance(value, str):
             return Quill(value)
         if isinstance(value, dict):
-            return Quill(json.loads(value))
+            return Quill(json.dumps(value))
         return None
 
     def get_prep_value(self, value):
