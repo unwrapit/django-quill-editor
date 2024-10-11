@@ -134,6 +134,10 @@ class QuillFieldMixin:
         :param value: JSON string with 'delta' and 'html' keys
         :return: Quill's 'Delta' JSON String
         """
+        print("to_python")
+        print(self)
+        print(value)
+        print("END to_python")
         if value is None:
             return value
         if isinstance(value, Quill):
@@ -147,6 +151,10 @@ class QuillFieldMixin:
         return None
 
     def get_prep_value(self, value):
+        print("get_prep_value")
+        print(self)
+        print(value)
+        print("END get_prep_value")
         value = super().get_prep_value(value)
         if value is None:
             return value
@@ -159,6 +167,10 @@ class QuillFieldMixin:
         return value
 
     def value_to_string(self, obj):
+        print("value_to_string")
+        print(self)
+        print(obj)
+        print("END value_to_string")
         value = self.value_from_object(obj)
         return self.get_prep_value(value)
 
